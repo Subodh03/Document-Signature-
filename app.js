@@ -23,10 +23,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/documents", documentRoutes);
 app.use("/api/sign", signRoutes); // public tokenized signing link lookup
 
-// 404 handler
+
 app.use((req, res) => res.status(404).json({ error: "Route not found" }));
 
-// Centralized error handler (e.g. multer file errors)
+
 app.use((err, req, res, next) => {
   console.error("[error]", err.message);
   res.status(err.status || 500).json({ error: err.message || "Internal server error" });
