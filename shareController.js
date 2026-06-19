@@ -2,7 +2,6 @@ const SigningToken = require("../models/SigningToken");
 const Document = require("../models/Document");
 const { addAudit } = require("../utils/audit");
 
-// POST /api/documents/:id/share  { email }
 async function createSigningLink(req, res) {
   try {
     const doc = await Document.findById(req.params.id);
@@ -37,7 +36,6 @@ async function createSigningLink(req, res) {
   }
 }
 
-// GET /api/sign/:token  (public — no auth — used by external signatory)
 async function getSigningLinkInfo(req, res) {
   try {
     const record = await SigningToken.findOne({ token: req.params.token });
