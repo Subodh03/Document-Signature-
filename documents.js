@@ -1,6 +1,4 @@
 import api from "./client";
-
-// ── Auth ──
 export const signup = (name, email, password) =>
   api.post("/auth/signup", { name, email, password }).then((r) => r.data);
 
@@ -11,8 +9,6 @@ export const logout = (refreshToken) =>
   api.post("/auth/logout", { refreshToken }).then((r) => r.data);
 
 export const getMe = () => api.get("/auth/me").then((r) => r.data);
-
-// ── Documents ──
 export const uploadDocument = (file, onProgress) => {
   const formData = new FormData();
   formData.append("file", file);
@@ -30,7 +26,6 @@ export const listDocuments = () => api.get("/documents").then((r) => r.data);
 
 export const getDocument = (id) => api.get(`/documents/${id}`).then((r) => r.data);
 
-// Fetches the original uploaded PDF bytes so it can be rendered on-screen (e.g. with pdf.js)
 export const getDocumentFileBlobUrl = async (id) => {
   const res = await api.get(`/documents/${id}/file`, { responseType: "blob" });
   return URL.createObjectURL(new Blob([res.data], { type: "application/pdf" }));
@@ -47,7 +42,6 @@ export const getDocumentAudit = (id) => api.get(`/documents/${id}/audit`).then((
 export const createSigningLink = (id, email) =>
   api.post(`/documents/${id}/share`, { email }).then((r) => r.data);
 
-// Triggers an actual file download of the signed PDF
 export const downloadSignedDocument = async (id, filename) => {
   const res = await api.get(`/documents/${id}/download`, { responseType: "blob" });
   const blob = new Blob([res.data], { type: "application/pdf" });
