@@ -4,11 +4,7 @@ import pdfjsWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-/**
- * Renders a single page of a real PDF (loaded from fileUrl) onto a canvas.
- * Calls onSize({ width, height }) once rendered so the parent can size the
- * signature-overlay layer to match exactly.
- */
+
 export function PdfPage({ fileUrl, pageNumber, onSize, onClick, children, cursor }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
@@ -24,7 +20,7 @@ export function PdfPage({ fileUrl, pageNumber, onSize, onClick, children, cursor
         const pdf = await pdfjsLib.getDocument(fileUrl).promise;
         const page = await pdf.getPage(pageNumber);
 
-        // Fit to container width, capped for readability
+        
         const containerWidth = containerRef.current?.clientWidth || 760;
         const unscaledViewport = page.getViewport({ scale: 1 });
         const scale = Math.min(containerWidth / unscaledViewport.width, 1.8);
