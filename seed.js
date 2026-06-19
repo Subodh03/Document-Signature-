@@ -1,5 +1,4 @@
-// Run with: npm run seed
-// Verifies the MongoDB connection works and creates one test user if none exist.
+
 require("dotenv").config();
 const mongoose = require("mongoose");
 const connectDB = require("../config/db");
