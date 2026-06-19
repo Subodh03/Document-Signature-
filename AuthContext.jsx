@@ -48,7 +48,7 @@ export function AuthProvider({ children }) {
     try {
       await authApi.logout(refreshToken);
     } catch (e) {
-      // ignore network errors on logout
+      
     }
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
