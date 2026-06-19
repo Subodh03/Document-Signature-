@@ -12,7 +12,7 @@ function getInitials(name) {
     .toUpperCase();
 }
 
-// POST /api/auth/signup
+
 async function signup(req, res) {
   try {
     const { name, email, password } = req.body;
@@ -50,7 +50,7 @@ async function signup(req, res) {
   }
 }
 
-// POST /api/auth/login
+
 async function login(req, res) {
   try {
     const { email, password } = req.body;
@@ -78,7 +78,7 @@ async function login(req, res) {
   }
 }
 
-// POST /api/auth/refresh
+
 async function refresh(req, res) {
   try {
     const { refreshToken } = req.body;
@@ -104,7 +104,7 @@ async function refresh(req, res) {
   }
 }
 
-// POST /api/auth/logout
+
 async function logout(req, res) {
   try {
     const { refreshToken } = req.body;
