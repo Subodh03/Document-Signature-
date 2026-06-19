@@ -5,12 +5,12 @@ const Document = require("../models/Document");
 const AuditLog = require("../models/AuditLog");
 const { addAudit } = require("../utils/audit");
 
-// POST /api/documents/upload
+
 async function uploadDocument(req, res) {
   try {
     if (!req.file) return res.status(400).json({ error: "No PDF file uploaded" });
 
-    // Read page count from the uploaded PDF
+    
     const fileBytes = fs.readFileSync(req.file.path);
     let pageCount = 1;
     try {
@@ -38,7 +38,7 @@ async function uploadDocument(req, res) {
   }
 }
 
-// GET /api/documents
+
 async function listDocuments(req, res) {
   try {
     const docs = await Document.find({ ownerId: req.user._id }).sort({ createdAt: -1 });
@@ -49,7 +49,7 @@ async function listDocuments(req, res) {
   }
 }
 
-// GET /api/documents/:id
+
 async function getDocument(req, res) {
   try {
     const doc = await Document.findById(req.params.id);
@@ -66,7 +66,6 @@ async function getDocument(req, res) {
   }
 }
 
-// GET /api/documents/:id/file  (original PDF, for viewing/rendering in frontend)
 async function getDocumentFile(req, res) {
   try {
     const doc = await Document.findById(req.params.id);
@@ -81,8 +80,7 @@ async function getDocumentFile(req, res) {
   }
 }
 
-// POST /api/documents/:id/sign
-// Body: { signatures: [{ type, dataUrl, text, font, x, y, page }] }
+
 async function signDocument(req, res) {
   try {
     const doc = await Document.findById(req.params.id);
@@ -107,7 +105,6 @@ async function signDocument(req, res) {
     doc.status = "signed";
     doc.signedAt = new Date();
 
-    // ── Generate the real signed PDF using pdf-lib ──
     const originalBytes = fs.readFileSync(doc.filePath);
     const pdfDoc = await PDFDocument.load(originalBytes);
     const pages = pdfDoc.getPages();
@@ -153,7 +150,7 @@ async function signDocument(req, res) {
       });
     }
 
-    // Append certificate of completion page
+   
     const certPage = pdfDoc.addPage();
     const { width: cw, height: ch } = certPage.getSize();
     certPage.drawText("Certificate of Completion", {
@@ -207,7 +204,6 @@ async function signDocument(req, res) {
   }
 }
 
-// GET /api/documents/:id/download  (the final signed PDF — triggers browser download)
 async function downloadSignedDocument(req, res) {
   try {
     const doc = await Document.findById(req.params.id);
@@ -227,7 +223,7 @@ async function downloadSignedDocument(req, res) {
   }
 }
 
-// POST /api/documents/:id/reject
+
 async function rejectDocument(req, res) {
   try {
     const doc = await Document.findById(req.params.id);
@@ -250,7 +246,7 @@ async function rejectDocument(req, res) {
   }
 }
 
-// GET /api/documents/:id/audit
+
 async function getDocumentAudit(req, res) {
   try {
     const doc = await Document.findById(req.params.id);
